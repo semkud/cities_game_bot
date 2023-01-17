@@ -10,8 +10,11 @@ df_base['played'] = 0
 
 bot = telebot.TeleBot(conf.TOKEN)
 
+#Словарь с пользователями, чтобы бот помнил для каждого пользователя свои настройки
 users = {}
 default_settings = {'game_status': 0, 'difficult': 1, 'threshold': 500000, 'key_letter': '', 'df': copy.deepcopy(df_base)}
+
+
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     user_id = message.chat.id
@@ -60,6 +63,7 @@ def callback_inline(call):
             users[user_id]['threshold'] = 0
         bot.send_message(user_id, 'Назовите город')
 
+#Функции, проверяющие валидность инпута     
 
 def is_city(bot, city, user_id):
     if city in df_base['city'].tolist():
